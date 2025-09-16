@@ -9,7 +9,7 @@ use limine::BaseRevision;
 
 /// Sets the base revision to the latest revision supported by the crate.
 /// See specification for further info.
-// Be sure to mark all limine requests with #[used], otherwise they may be removed by the compiler.
+/// Be sure to mark all limine requests with #[used], otherwise they may be removed by the compiler.
 #[used]
 // The .requests section allows limine to find the requests faster and more safely.
 #[link_section = ".requests"]
