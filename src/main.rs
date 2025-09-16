@@ -2,6 +2,7 @@
 #![no_main]
 
 mod arch;
+mod font;
 mod framebuffer;
 
 use framebuffer::draw_stuff;
