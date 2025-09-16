@@ -17,7 +17,7 @@
     "pre-link-args": {
         "ld.lld": [
             "--gc-sections",
-            "--script=kernel/src/arch/x86_64/linker.ld"
+            "--script=src/arch/x86_64/linker.ld"
         ]
     }
 }

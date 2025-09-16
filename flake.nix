@@ -77,15 +77,7 @@
       });
 
       nixstrapConfigurations = {
-        # FIXME: ISO configurations
-        # FIXME: loongarch64
-        # FIXME: bios
         x86_64-hdd = mkConfiguration "x86_64-elf" false;
-        aarch64-hdd = mkConfiguration "aarch64-elf" false;
-        riscv64-hdd = mkConfiguration "riscv64-elf" false;
-        x86_64-release-hdd = mkConfiguration "x86_64-elf" true;
-        aarch64-release-hdd = mkConfiguration "aarch64-elf" true;
-        riscv64-release-hdd = mkConfiguration "riscv64-elf" true;
       };
     };
 }
