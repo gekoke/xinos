@@ -26,8 +26,8 @@
     # We need the targets dir and the linker scripts to be able to build the
     # deps only derivation, even if this is just a dummy src.
     extraDummyScript = ''
-      cp -r ${src}/kernel/targets $out/kernel/
-      cp -r ${ldSrc}/kernel/src/arch $out/kernel/src
+      cp -r ${src}/targets $out/kernel/
+      cp -r ${ldSrc}/src/arch $out/kernel/src
     '';
   };
   target = {
@@ -38,18 +38,12 @@
 in {
   kernel = craneLib.buildPackage {
     inherit (craneLib.crateNameFromCargoToml {
-      cargoToml = ./kernel/Cargo.toml;
+      cargoToml = ./Cargo.toml;
     }) pname version;
     inherit src;
     inherit dummySrc;
 
     strictDeps = true;
-
-    # I couldn't figure out how to run cargo in the kernel directory, so let's
-    # just move its config here.
-    postPatch = ''
-      mv kernel/.cargo ./
-    '';
 
     cargoVendorDir = craneLib.vendorMultipleCargoDeps {
       inherit (craneLib.findCargoFiles ./kernel) cargoConfigs;
@@ -68,7 +62,7 @@ in {
       ];
     };
 
-    cargoExtraArgs = "-p kernel --locked --target kernel/targets/${target}-kernel.json";
+    cargoExtraArgs = "--locked --target targets/${target}-kernel.json";
     CARGO_PROFILE = if release then "release" else "dev";
 
     doCheck = false;

@@ -1,6 +1,15 @@
-[workspace]
-resolver = "3"
-members = ["kernel"]
+[package]
+name = "kernel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+limine = "0.5.0"
+
+[[bin]]
+name = "kernel"
+test = false
+bench = false
 
 [profile.dev]
 panic = "abort"
