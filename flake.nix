@@ -61,12 +61,16 @@
             cargo-deny
             cargo-edit
             cargo-watch
-            (pkgs.writeShellScriptBin "qemu-system-x86_64-uefi" ''
-                ${pkgs.qemu}/bin/qemu-system-x86_64 -bios ${pkgs.OVMF.fd}/FV/OVMF.fd "$@"
-            '')
-            (pkgs.writeShellScriptBin "dev" ''
-                ${pkgs.qemu}/bin/qemu-system-x86_64 -drive format=raw,file=${self.nixstrapConfigurations.x86_64-hdd.config.build.artifacts}/disk -bios ${pkgs.OVMF.fd}/FV/OVMF.fd 
-            '')
+            (pkgs.writeShellApplication {
+              name = "dev";
+              text = ''
+                nix build .#nixstrapConfigurations.x86_64-hdd.config.build.artifacts
+                cp ./result/disk ./disk.bin
+                rm -rf ./result
+                chmod +w ./disk.bin
+                ${pkgs.qemu}/bin/qemu-system-x86_64 -bios ${pkgs.OVMF.fd}/FV/OVMF.fd ./disk.bin
+              '';
+            })
           ];
 
           env = {
