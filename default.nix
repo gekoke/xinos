@@ -7,9 +7,11 @@
 }: let
   jsonFilter = path: _type: lib.hasSuffix ".json" path;
   ldFilter = path: _type: lib.hasSuffix ".ld" path;
+  bdfFilter = path: _type: lib.hasSuffix ".bdf" path;
   sourceFilter = path: type:
     (jsonFilter path type) ||
     (ldFilter path type) ||
+    (bdfFilter path type) ||
     (craneLib.filterCargoSources path type);
   src = lib.cleanSourceWith {
     src = ./.;
