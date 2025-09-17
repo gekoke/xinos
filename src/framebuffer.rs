@@ -1,5 +1,6 @@
 use lazy_static::lazy_static;
 use limine::{framebuffer::Framebuffer, request::FramebufferRequest};
+use rgb::Rgba;
 
 #[used]
 #[link_section = ".requests"]
@@ -14,15 +15,31 @@ lazy_static! {
         .expect("at least one framebuffer to exist");
 }
 
-pub fn draw_stuff() -> () {
-    for i in 0..100_u64 {
-        // Calculate the pixel offset using the framebuffer information we obtained above.
-        // We skip `i` scanlines (pitch is provided in bytes) and add `i * 4` to skip `i` pixels forward.
-        let pixel_offset = i * FRAME_BUFFER.pitch() + i * 4;
-
-        unsafe {
-            // Write 0xFFFFFFFF to the provided pixel offset to fill it white.
-            *(FRAME_BUFFER.addr().add(pixel_offset as usize) as *mut u32) = 0xFFFFFFFF;
-        }
+/// `false`, if the write was out of bounds - `true` otherwise
+pub fn draw(pixel: Rgba<u8>, y: u64, x: u64) -> bool {
+    if y > FRAME_BUFFER.height() - 1 {
+        return false;
     }
+
+    if x > FRAME_BUFFER.width() - 1 {
+        return false;
+    }
+
+    let line = y * FRAME_BUFFER.pitch();
+    let px = x * 4;
+    let pixel_offset = line + px;
+
+    unsafe {
+        let pixel_addr = FRAME_BUFFER.addr().add(pixel_offset as usize) as *mut Rgba<u8>;
+        *pixel_addr = pixel
+    }
+    true
+}
+
+pub fn width() -> u64 {
+   FRAME_BUFFER.width() 
+}
+
+pub fn height() -> u64 {
+   FRAME_BUFFER.height() 
 }

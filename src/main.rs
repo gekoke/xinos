@@ -5,7 +5,6 @@ mod arch;
 mod font;
 mod framebuffer;
 
-use framebuffer::draw_stuff;
 use limine::BaseRevision;
 
 /// Sets the base revision to the latest revision supported by the crate.
@@ -21,8 +20,6 @@ unsafe extern "C" fn kmain() -> ! {
     // All limine requests must also be referenced in a called function, otherwise they may be
     // removed by the linker.
     assert!(BASE_REVISION.is_supported());
-
-    draw_stuff(); 
 
     arch::hcf();
 }
