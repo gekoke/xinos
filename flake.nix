@@ -60,9 +60,7 @@
             (pkgs.writeShellApplication {
               name = "dev";
               text = ''
-                ${pkgs.nix}/bin/nix build .#nixstrapConfigurations.x86_64-hdd.config.build.artifacts
-                cp ./result/disk ./disk.bin
-                rm -rf ./result
+                cp ${self.nixstrapConfigurations.x86_64-hdd.config.build.artifacts}/disk ./disk.bin
                 chmod +w ./disk.bin
                 ${pkgs.qemu}/bin/qemu-system-x86_64 -bios ${pkgs.OVMF.fd}/FV/OVMF.fd ./disk.bin
               '';
