@@ -1,14 +1,25 @@
-{ craneLib, pkgs, release, ... }: let
+{
+  craneLib,
+  pkgs,
+  lib,
+  release,
+  withKernel,
+  ...
+}:
+let
   # The system package. This package provides the kernel and other components
   # of the system, all sharing a Cargo.lock file and a Cargo workspace.
   # You don't have to do this with your project, you can also package all the
   # components of your system separately, as showcased in the C template.
   system = pkgs.callPackage ./. { inherit release craneLib; };
-in {
+  kernel = if withKernel then { file."boot/kernel".source = "${system.kernel}/bin/kernel"; } else { };
+in
+kernel
+// {
   build.label = "xinos";
   boot.loader.devices = [ "disk" ];
   # Timeout in seconds that Limine will use before automatically booting.
-  boot.loader.timeout = 3;
+  boot.loader.timeout = 0;
   boot.loader.limine.enable = true;
   boot.entry."Xinos" = {
     # We use the Limine boot protocol.
@@ -24,7 +35,6 @@ in {
   boot.efiSysMountPoint = "";
 
   # This copies the kernel from the system build, and places it in /boot/kernel
-  file."boot/kernel".source = "${system.kernel}/bin/kernel";
 
   # The image definition. This uses the same format as disko images, and
   # nixstrap internally uses a fork of disko to create and format these images.
