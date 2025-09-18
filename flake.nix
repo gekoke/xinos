@@ -1,6 +1,4 @@
 {
-  description = "Template for a Limine-compliant kernel in Rust using nixstrap.";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     rust-overlay = {
