@@ -7,6 +7,8 @@ edition = "2021"
 limine = "0.5.0"
 lazy_static = { version = "1.5.0", features = ["spin_no_std"] }
 rgb = "0.8.52"
+uart_16550 = "0.4.0"
+spin = "0.10.0"
 
 [[bin]]
 name = "kernel"

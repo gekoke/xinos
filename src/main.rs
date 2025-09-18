@@ -4,6 +4,7 @@
 mod arch;
 mod font;
 mod framebuffer;
+mod serial;
 
 use limine::BaseRevision;
 
@@ -20,6 +21,7 @@ unsafe extern "C" fn kmain() -> ! {
     // All limine requests must also be referenced in a called function, otherwise they may be
     // removed by the linker.
     assert!(BASE_REVISION.is_supported());
+    serial_println!("hi");
 
     arch::hcf();
 }
