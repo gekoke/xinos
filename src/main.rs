@@ -2,6 +2,7 @@
 #![no_main]
 
 mod arch;
+mod debug;
 mod font;
 mod framebuffer;
 mod serial;
@@ -21,12 +22,13 @@ unsafe extern "C" fn kmain() -> ! {
     // All limine requests must also be referenced in a called function, otherwise they may be
     // removed by the linker.
     assert!(BASE_REVISION.is_supported());
-    serial_println!("hi");
 
+    kinfo!("Xinos running");
     arch::hcf();
 }
 
 #[panic_handler]
-fn rust_panic(_info: &core::panic::PanicInfo) -> ! {
+fn rust_panic(info: &core::panic::PanicInfo) -> ! {
+    kfatal!("panic! {}", info);
     arch::hcf();
 }
