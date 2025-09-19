@@ -3,6 +3,7 @@
 
 mod ascii;
 mod arch;
+mod debug;
 mod font;
 mod framebuffer;
 mod serial;
