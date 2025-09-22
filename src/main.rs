@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+mod ascii;
 mod arch;
 mod debug;
 mod font;
